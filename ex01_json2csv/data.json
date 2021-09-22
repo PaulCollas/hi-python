@@ -1,0 +1,19 @@
+{
+    "city":[
+        {
+            "name": "Paris",
+            "country": "France",
+            "Monument": "tour Eiffel"
+        },
+        {
+            "name": "Marseille",
+            "country": "France",
+            "Monument": "Vieux Port"
+        },
+        {
+            "name": "N.Y",
+            "country": "Etats-Unis",
+            "Monument": "Statue de la Liberté"
+        }
+    ]
+}
