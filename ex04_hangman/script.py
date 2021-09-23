@@ -1,7 +1,9 @@
 import random
 
-board = ["""
-H A N G M A N - Fruit Edition
+
+# ALL DRAW FOR MISSES
+hang = ["""
+H A N G M A N - Biggest French cities Edition
 
    +---+
    |   |
@@ -10,7 +12,7 @@ H A N G M A N - Fruit Edition
        |
        |
 =========""", """
-H A N G M A N - Fruits Edition
+H A N G M A N - Biggest French cities Edition
 
   +---+
   |   |
@@ -19,7 +21,7 @@ H A N G M A N - Fruits Edition
       |
       |
 =========""", """
-H A N G M A N - Fruits Edition
+H A N G M A N - Biggest French cities Edition
 
   +---+
   |   |
@@ -28,7 +30,7 @@ H A N G M A N - Fruits Edition
       |
       |
 =========""", """
-H A N G M A N - Fruits Edition
+H A N G M A N - Biggest French cities Edition
 
   +---+
   |   |
@@ -37,7 +39,7 @@ H A N G M A N - Fruits Edition
       |
       |
 =========""", """
-H A N G M A N - Fruits Edition
+H A N G M A N - Biggest French cities Edition
 
   +---+
   |   |
@@ -46,7 +48,7 @@ H A N G M A N - Fruits Edition
       |
       |
 =========""", """
-H A N G M A N - Fruits Edition
+H A N G M A N - Biggest French cities Edition
 
   +---+
   |   |
@@ -55,7 +57,7 @@ H A N G M A N - Fruits Edition
  /    |
       |
 =========""", """
-H A N G M A N - Fruits Edition
+H A N G M A N - Biggest French cities Edition
 
   +---+
   |   |
@@ -65,93 +67,94 @@ H A N G M A N - Fruits Edition
       |
 ========="""]
 
+
 def getRandomWord():
 
-    ## ALL WORDS
-    words = ['paris', 'marseille', 'lyon', 'toulouse', 'nice', 'nantes', 'strasbourg', 'montpellier', 'bordeaux', 'lille', 'rennes', 'reims', 'toulon', 'grenoble', 'dijon', 'angers', 'nîmes', 'saint-Denis', 'caen']
+    # LIST OF ALL CITIES
+    cities = ['paris', 'marseille', 'lyon', 'toulouse', 'nice', 'nantes', 'strasbourg', 'montpellier', 'bordeaux', 'lille', 'rennes', 'reims', 'toulon', 'grenoble', 'dijon', 'angers', 'nîmes', 'saint-Denis', 'caen']
 
-    word = random.choice(words)
-    return word
+    # CHOICE OF ONE CITY
+    city = random.choice(cities)
+    return city
 
-def displayBoard(board, missedLetters, correctLetters, secretWord):
-    print(board[len(missedLetters)])
+
+def displayBoard(hang, missedLetters, correctLetters, secretCity):
+
+    # PUT FIRST DRAW 
+    print(hang[len(missedLetters)])
     print()
-    
-    print('Missed Letters: ', end='')
 
+    # PUT THE SPACE WHERE MISSED LETTERS
+    print('Lettres déjà dites:', end=' ')
     for letter in missedLetters:
-        print(letter, end='')
-        print("\n")
-
-    blanks = '_' * len(secretWord)
-
-    for i in range(len(secretWord)):
-        if secretWord[i] in correctLetters:
-            blanks = blanks[:i] + secretWord[i] + blanks[i+1:]
-
-    for letter in blanks: 
-        print(letter, end='')
+        print(letter, end=' ')
     print("\n")
 
+    # BLANKS IS TO PUT _ INDEED NAME OF THE SECRETCITY
+    blanks = '_' * len(secretCity)
+
+    # REMPLACE BANKS WITH CORRECT LETTERS
+    for i in range(len(secretCity)): 
+        if secretCity[i] in correctLetters:
+            blanks = blanks[:i] + secretCity[i] + blanks[i+1:]
+
+    # SHOW THE SECRETCITY INDEED BLANK
+    for letter in blanks:  
+        print(letter, end=' ')
+    print("\n")
+
+
+# CONTROL OF INPUT
 def getGuess(alreadyGuessed):
     while True:
-        guess = input('Trouve une lettre: ')
+        guess = input('Donnes une lettre: ')
         guess = guess.lower()
-
-        ## TEST & VERIFICATION
         if len(guess) != 1:
-            print('Please enter a single letter.')
+            print('Entre une seule lettre !')
         elif guess in alreadyGuessed:
-            print('You have already guessed that letter. Choose again')
+            print('Tu as déjà dis cette lettre. donnes en une autre.')
         elif guess not in 'abcdefghijklmnopqrstuvwxyz':
-            print('Choose a min letter')
-        else: 
+            print('Entre une lettre minuscule !')
+        else:
             return guess
-        
-def playAgain():
-    return input("\n Do you want to play again? ").lower().startswith('y')
 
 
+# SET VALUES TO '' FOR DEFAULT
 missedLetters = ''
 correctLetters = ''
-secretWord = getRandomWord()
+
+# SET THE SECRETCITY
+secretCity = getRandomWord()
+
 gameIsDone = False
 
-
 while True:
-    displayBoard(board, missedLetters, correctLetters, secretWord)
+    displayBoard(hang, missedLetters, correctLetters, secretCity)
 
     guess = getGuess(missedLetters + correctLetters)
 
-    if guess in secretWord:
+    # CONDTION WHERE USER GUESS SECRETCITY
+    if guess in secretCity:
         correctLetters = correctLetters + guess
 
+        # PUT VALUE TO FOUND ALL LETTERS
         foundAllLetters = True
-
-        for i in range(len(secretWord)):
-            if secretWord[i] not in correctLetters:
+        for i in range(len(secretCity)):
+            if secretCity[i] not in correctLetters:
                 foundAllLetters = False
-            break
-        if foundAllLetters:
-            print('\n Yes! The secret word is "' + secretWord + '! You have won!')
-            gameIsDone = True
-        else:
-            missedLetters = missedLetters + guess
-
-            if len(missedLetters) == len(board) - 1:
-                displayBoard(board, missedLetters, correctLetters, secretWord)
-                print('You have run of guesses!\nAfter ' + str(len(missedLetters)) + ' missed guesses and ' +
-                  str(len(correctLetters)) + ' correct guesses, the word was "' + secretWord + '"')
-                
-                gameIsDone = True
-        
-        if gameIsDone:
-            if playAgain():
-                missedLetters = ''
-                correctLetters = ''
-                gameIsDone = False
-                secretWord = getRandomWord()
-            else:
                 break
-        
-    
+
+        # CONDITION & PRINT WHEN USER GUESS CITY
+        if foundAllLetters:
+            print('\nBien joué la ville est: "' +
+                  secretCity + '"! Vous avez gagné!')
+            gameIsDone = True
+    else:
+        missedLetters = missedLetters + guess
+
+        # CONDITION WHEN USER DON'T GUESS SECRETCITY
+        if len(missedLetters) == len(hang) - 1:
+            displayBoard(hang, missedLetters, correctLetters, secretCity)
+            print('Vous avez perdu!\nAprès ' + str(len(missedLetters)) + ' de mauvaises lettres et de ' +
+                  str(len(correctLetters)) + ' bonnes lettres, la ville était "' + secretCity + '"')
+            gameIsDone = True
