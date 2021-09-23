@@ -118,6 +118,9 @@ def getGuess(alreadyGuessed):
         else:
             return guess
 
+# DEF FOR PLAY AGAIN WITH CONTRAINST with y or N
+def playAgain():
+    return input("\nVoulez-vous jouez à nouveau? (y/N) ").lower().startswith('y')
 
 # SET VALUES TO '' FOR DEFAULT
 missedLetters = ''
@@ -155,6 +158,17 @@ while True:
         # CONDITION WHEN USER DON'T GUESS SECRETCITY
         if len(missedLetters) == len(hang) - 1:
             displayBoard(hang, missedLetters, correctLetters, secretCity)
-            print('Vous avez perdu!\nAprès ' + str(len(missedLetters)) + ' de mauvaises lettres et de ' +
+            print('Vous avez perdu!\nAprès ' + str(len(missedLetters)) + ' mauvaises lettres et ' +
                   str(len(correctLetters)) + ' bonnes lettres, la ville était "' + secretCity + '"')
             gameIsDone = True
+
+    
+    # CONDITION END GAME
+    if gameIsDone:
+        if playAgain():
+            missedLetters = ''
+            correctLetters = ''
+            gameIsDone = False
+            secretWord = getRandomWord()
+        else:
+            break
