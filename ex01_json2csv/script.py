@@ -1,57 +1,19 @@
-
-###### TEST 1 ######
-# import pandas as pd
-# import json
-
-# filename = 'data.json'
-
-# info = json.loads(filename)
-
-# df = pd.json_normalize(info['Eleves'])
-
-# df.to_csv("file.csv")
-
-
-
-###### TEST 2 ######
-# import pandas as pd
-
-# df = pd.read_json('export.json')
-# print(df)
-
-# df.to_csv()
-
-
-###### TEST 3 with no pandas ########
-
-# import json
-# import csv
-
-# f = open('data.json')
-# data = json.load(f)
-# print(data)
-# f.close()
-
-# f = open('file.csv')
-# csv_file = csv.writer(f)
-# for item in data:
-#     f.writerow(item)
-
-# f.close()
-
-
-###### TEST 4 ###########
+###### JSON TON CSV ###########
 
 import json
 import csv
 
+# OPEN JSON FILE
 with open('data.json') as fichier_json:
     data = json.load(fichier_json)
  
+# KEY FROM DATA IN JSON
 cities = data['city']
 
+# OPEN CSV FILE
 toCsv = open('file.csv', 'w')
 
+# PREPARE CSV FILE TO WRITE
 csv_writer = csv.writer(toCsv)
 
 count = 0
@@ -59,10 +21,14 @@ count = 0
 for ct in cities:
     if count == 0:
 
+        # SELECTED KEYS IN HEADER
         header = ct.keys()
+
+        # WRITE KEY IN HEADER
         csv_writer.writerow(header)
         count += 1
-        
+    
+    # WRITE VALUES OF KEYS
     csv_writer.writerow(ct.values())
  
 toCsv.close()
